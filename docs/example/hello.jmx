@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jmeterTestPlan version="1.2" properties="5.0" jmeter="5.2">
+  <hashTree>
+    <TestPlan guiclass="TestPlanGui" testclass="TestPlan" testname="Test Plan" enabled="true">
+      <stringProp name="TestPlan.comments"></stringProp>
+      <boolProp name="TestPlan.functional_mode">false</boolProp>
+      <boolProp name="TestPlan.tearDown_on_shutdown">true</boolProp>
+      <boolProp name="TestPlan.serialize_threadgroups">false</boolProp>
+      <elementProp name="TestPlan.user_defined_variables" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+        <collectionProp name="Arguments.arguments"/>
+      </elementProp>
+      <stringProp name="TestPlan.user_define_classpath"></stringProp>
+    </TestPlan>
+    <hashTree>
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Thread Group" enabled="true">
+        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
+          <boolProp name="LoopController.continue_forever">false</boolProp>
+          <intProp name="LoopController.loops">-1</intProp>
+        </elementProp>
+        <stringProp name="ThreadGroup.num_threads">16</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">1</stringProp>
+        <boolProp name="ThreadGroup.scheduler">true</boolProp>
+        <stringProp name="ThreadGroup.duration">5</stringProp>
+        <stringProp name="ThreadGroup.delay"></stringProp>
+        <boolProp name="ThreadGroup.same_user_on_next_iteration">true</boolProp>
+      </ThreadGroup>
+      <hashTree>
+        <RandomVariableConfig guiclass="TestBeanGUI" testclass="RandomVariableConfig" testname="randomNumber" enabled="true">
+          <stringProp name="maximumValue">9999</stringProp>
+          <stringProp name="minimumValue">1000</stringProp>
+          <stringProp name="outputFormat"></stringProp>
+          <boolProp name="perThread">false</boolProp>
+          <stringProp name="randomSeed"></stringProp>
+          <stringProp name="variableName">randomNumber</stringProp>
+        </RandomVariableConfig>
+        <hashTree/>
+        <vn.zalopay.jmeter.grpc.client.GrpcClientSampler guiclass="TestBeanGUI" testclass="vn.zalopay.jmeter.grpc.client.GrpcClientSampler" testname="Hello World" enabled="true">
+          <stringProp name="hostname">localhost</stringProp>
+          <longProp name="timeout">30</longProp>
+          <stringProp name="metaData">{&quot;Authorization&quot;: &quot;Bearer TOKEN&quot;}</stringProp>
+          <stringProp name="method">sayHello</stringProp>
+          <stringProp name="packageN">io.grpc.examples.helloworld</stringProp>
+          <intProp name="port">50051</intProp>
+          <stringProp name="request">io.grpc.examples.helloworld.HelloRequest</stringProp>
+          <stringProp name="requestBuilderCode">import vn.zalopay.jmeter.grpc.utils.MessageBuilder;
+import io.grpc.examples.helloworld.HelloRequest;
+import com.google.protobuf.Message;
+import org.apache.jmeter.threads.JMeterContext;
+import org.apache.jmeter.threads.JMeterVariables;
+
+public class RequestFactory implements MessageBuilder {
+    public Message buildMessage(JMeterContext jmctx) {
+    	
+        JMeterVariables vars = jmctx.getVariables();
+        HelloRequest request = HelloRequest.newBuilder()
+        		.setName(&quot;Name&quot; + vars.get(&quot;randomNumber&quot;))
+        		.setSleepOn(23).build();
+        		
+        return request;
+    }
+}
+</stringProp>
+          <stringProp name="service">Greeter</stringProp>
+          <boolProp name="useSsl">false</boolProp>
+        </vn.zalopay.jmeter.grpc.client.GrpcClientSampler>
+        <hashTree/>
+      </hashTree>
+    </hashTree>
+  </hashTree>
+</jmeterTestPlan>

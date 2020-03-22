@@ -124,13 +124,23 @@ public class GrpcUtils {
     return str == null || str.trim().isEmpty();
   }
 
+  private static String decapitalize(String str) {
+    int strLen;
+    return str != null && (strLen = str.length()) != 0
+        ? (new StringBuffer(strLen))
+            .append(Character.toLowerCase(str.charAt(0)))
+            .append(str.substring(1))
+            .toString()
+        : str;
+  }
+
   public static Map createHeaderMap(String metaData) {
     Map headerMap = new HashMap<>();
     if (!isBlankString(metaData)) {
       try {
         headerMap = new ObjectMapper().readValue(metaData, Map.class);
       } catch (JsonProcessingException e) {
-        LOGGER.error("Failed to load metadata: {}", e);
+        LOGGER.error("Failed to load metadata: ", e);
       }
     }
     return headerMap;
@@ -159,7 +169,7 @@ public class GrpcUtils {
           .includingDefaultValueFields()
           .print((Message) resp);
     } catch (InvalidProtocolBufferException e) {
-      LOGGER.error("call getJsonMessageResponse has thow an Exception: {}", e);
+      LOGGER.error("call getJsonMessageResponse has thrown an Exception: ", e);
       return "";
     }
   }
@@ -188,8 +198,9 @@ public class GrpcUtils {
 
   public static Method getApiMethod(GrpcClientSampler sampler, AbstractStub<?> blockingStub)
       throws ClassNotFoundException, NoSuchMethodException {
+    String methodName = decapitalize(sampler.getMethod());
     Method apiMethod =
-        blockingStub.getClass().getMethod(sampler.getMethod(), Class.forName(sampler.getRequest()));
+        blockingStub.getClass().getMethod(methodName, Class.forName(sampler.getRequest()));
     apiMethod.setAccessible(true);
     return apiMethod;
   }

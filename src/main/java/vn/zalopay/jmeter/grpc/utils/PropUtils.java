@@ -24,7 +24,7 @@ public class PropUtils {
       properties.load(input);
 
     } catch (IOException e) {
-      LOGGER.error("Can not read file properties", e);
+      LOGGER.error("Can not read file properties ", e);
     }
   }
 

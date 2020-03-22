@@ -58,7 +58,7 @@ public class GrpcClientSampler extends AbstractSampler implements TestBean, Seri
       apiMethod = GrpcUtils.getApiMethod(this, blockingStub);
       messageBuilder = GrpcUtils.getMessageBuilder(this.getRequestBuilderCode());
     } catch (Exception e) {
-      LOGGER.error("Call initGrpcClient has throw an exception: {}", e);
+      LOGGER.error("Call initGrpcClient has thrown an exception: ", e);
     }
   }
 
@@ -70,7 +70,7 @@ public class GrpcClientSampler extends AbstractSampler implements TestBean, Seri
     }
     // get message object to call rpc
     Message req = messageBuilder.buildMessage(JMeterContextService.getContext());
-    ClientRecorder recorder = new ClientRecorder(this, getName(), req);
+    ClientRecorder recorder = new ClientRecorder(this, req);
 
     recorder.recordStart();
     try {
@@ -79,7 +79,7 @@ public class GrpcClientSampler extends AbstractSampler implements TestBean, Seri
       LOGGER.info("Call sample has response= {}", resp);
     } catch (Exception e) {
       recorder.recordFailure(e);
-      LOGGER.error("Call sample has throw an exception: {}", e);
+      LOGGER.error("Call sample has thrown an exception: ", e);
     }
 
     return recorder.getResult();
@@ -90,7 +90,7 @@ public class GrpcClientSampler extends AbstractSampler implements TestBean, Seri
     try {
       shutdown();
     } catch (InterruptedException e) {
-      LOGGER.error("Call clear has thow an InterruptedException: {}", e);
+      LOGGER.error("Call clear has thrown an InterruptedException: ", e);
       Thread.currentThread().interrupt();
     }
   }

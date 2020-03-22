@@ -10,10 +10,10 @@ public class ClientRecorder {
 
   private SampleResult result;
 
-  public ClientRecorder(GrpcClientSampler sampler, String label, Message req) {
+  public ClientRecorder(GrpcClientSampler sampler, Message req) {
     String samplerData = GrpcUtils.getSamplerData(sampler, req.toString());
     result = new SampleResult();
-    result.setSampleLabel(label);
+    result.setSampleLabel(sampler.getName());
     result.setSamplerData(samplerData);
   }
 

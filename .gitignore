@@ -17,4 +17,6 @@ target/
 
 dependency-reduced-pom.xml
 docs/example/apache-jmeter-5.2
-
+docs/example/*_report
+docs/example/*.csv
+docs/example/*.log

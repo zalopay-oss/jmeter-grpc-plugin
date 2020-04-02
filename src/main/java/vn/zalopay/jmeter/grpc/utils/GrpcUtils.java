@@ -206,14 +206,14 @@ public class GrpcUtils {
   }
 
   public static MessageBuilder getMessageBuilder(String source) {
-
-    StringGeneratedJavaCompilerFacade compilerFacade =
-        new StringGeneratedJavaCompilerFacade(classLoader);
-    Class<? extends MessageBuilder> compiledClass =
-        compilerFacade.compile(BUILD_MESSAGE_CLASS_NAME, source, MessageBuilder.class);
     try {
+      StringGeneratedJavaCompilerFacade compilerFacade =
+          new StringGeneratedJavaCompilerFacade(classLoader);
+      Class<? extends MessageBuilder> compiledClass =
+          compilerFacade.compile(BUILD_MESSAGE_CLASS_NAME, source, MessageBuilder.class);
       return compiledClass.newInstance();
-    } catch (InstantiationException | IllegalAccessException e) {
+    } catch (Exception e) {
+      LOGGER.error("Failed to getMessageBuilder: ", e);
       throw new IllegalStateException(
           "The generated class (" + BUILD_MESSAGE_CLASS_NAME + ") failed to instantiate.", e);
     }

@@ -51,12 +51,12 @@ import org.apache.jmeter.threads.JMeterVariables;
 
 public class RequestFactory implements MessageBuilder {
     public Message buildMessage(JMeterContext ctx) {
-    	
+
         JMeterVariables vars = ctx.getVariables();
         HelloRequest request = HelloRequest.newBuilder()
         		.setName(&quot;Name&quot; + vars.get(&quot;randomNumber&quot;))
         		.setSleepOn(23).build();
-        		
+
         return request;
     }
 }

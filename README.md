@@ -20,7 +20,7 @@ $ cp target/jmeter-grpc-client-sampler.jar path/to/jmeter/lib/ext
 
 > *Note*: Please read [example](./docs/example/README.md) first if you want to skip the step by step below
 
-* Build and copy the protobuf jar to folder `jmeter/lib/ext`
+* Build and copy the protobuf jar to folder `jmeter/lib/ext` (do like this [script](docs/example/scripts/compile.sh) does)
 
 * Create test plan :
   *  `TestPlan > Add > Thread (Users) > Thread Group`

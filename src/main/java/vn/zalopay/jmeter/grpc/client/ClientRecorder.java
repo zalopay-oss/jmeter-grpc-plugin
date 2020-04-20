@@ -15,6 +15,7 @@ public class ClientRecorder {
     result = new SampleResult();
     result.setSampleLabel(sampler.getName());
     result.setSamplerData(samplerData);
+    result.setSentBytes(req.getSerializedSize());
   }
 
   public SampleResult getResult() {

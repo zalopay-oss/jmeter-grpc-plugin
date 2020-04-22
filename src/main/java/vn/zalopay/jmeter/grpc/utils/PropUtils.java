@@ -15,7 +15,6 @@ public class PropUtils {
   private Properties properties;
   private static final ClassLoader classLoader = PropUtils.class.getClassLoader();
 
-
   public PropUtils(String file) {
     properties = new Properties();
     try (InputStream input = classLoader.getResourceAsStream(file)) {

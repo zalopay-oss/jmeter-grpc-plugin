@@ -30,16 +30,36 @@ public class GrpcClientSampler extends AbstractSampler implements TestBean, Seri
   private static final long serialVersionUID = 24138743232L;
   private static final transient Logger LOGGER = LoggerFactory.getLogger(GrpcClientSampler.class);
 
-  @Setter @Getter private String hostname = Config.HOST_NAME;
-  @Setter @Getter private int port = Config.PORT;
-  @Setter @Getter private boolean useSsl = Config.USE_SSL;
-  @Setter @Getter private String packageN = Config.PACKAGE_NAME;
-  @Setter @Getter private String service = Config.SERVICE;
-  @Setter @Getter private String method = Config.METHOD;
-  @Setter @Getter private String request = Config.REQUEST;
-  @Setter @Getter private long timeout = Config.TIME_OUT;
-  @Setter @Getter private String metaData = Config.META_DATA;
-  @Setter @Getter private String requestBuilderCode = Config.REQUEST_CODE;
+  @Setter
+  @Getter
+  private String hostname = Config.HOST_NAME;
+  @Setter
+  @Getter
+  private int port = Config.PORT;
+  @Setter
+  @Getter
+  private boolean useSsl = Config.USE_SSL;
+  @Setter
+  @Getter
+  private String packageN = Config.PACKAGE_NAME;
+  @Setter
+  @Getter
+  private String service = Config.SERVICE;
+  @Setter
+  @Getter
+  private String method = Config.METHOD;
+  @Setter
+  @Getter
+  private String request = Config.REQUEST;
+  @Setter
+  @Getter
+  private long timeout = Config.TIME_OUT;
+  @Setter
+  @Getter
+  private String metaData = Config.META_DATA;
+  @Setter
+  @Getter
+  private String requestBuilderCode = Config.REQUEST_CODE;
 
   private transient ManagedChannel channel = null;
   private transient AbstractStub<?> blockingStub = null;

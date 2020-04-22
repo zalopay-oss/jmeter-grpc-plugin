@@ -20,6 +20,7 @@
         <spring.version>4.3.9.RELEASE</spring.version>
         <lombok.version>1.18.10</lombok.version>
         <jackson.version>2.10.0</jackson.version>
+        <spotless-maven-plugin.version>1.20.0</spotless-maven-plugin.version>
     </properties>
 
     <dependencies>
@@ -186,6 +187,34 @@
                                 </includes>
                             </artifactSet>
                         </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+
+            <plugin>
+                <groupId>com.diffplug.spotless</groupId>
+                <artifactId>spotless-maven-plugin</artifactId>
+                <version>${spotless-maven-plugin.version}</version>
+                <configuration>
+                    <java>
+                        <eclipse>
+                            <!-- gRPC JMeter plugin uses Sun's java code style conventions with 2 spaces, this is a modified version of
+                                 the eclipse formatter -->
+                            <file>${project.basedir}/java-formatter.xml</file>
+                            <version>4.10.0</version>
+                        </eclipse>
+                        <removeUnusedImports/>
+                    </java>
+                </configuration>
+                <executions>
+                    <execution>
+                        <!-- Runs in compile phase to fail fast in case of formatting issues.-->
+                        <id>spotless-check</id>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
                     </execution>
                 </executions>
             </plugin>

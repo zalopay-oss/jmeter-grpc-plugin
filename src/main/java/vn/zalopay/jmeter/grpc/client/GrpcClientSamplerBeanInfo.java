@@ -19,10 +19,9 @@ public class GrpcClientSamplerBeanInfo extends BeanInfoSupport {
   public GrpcClientSamplerBeanInfo() {
     super(GrpcClientSampler.class);
 
-    createPropertyGroup("Server", new String[] {"hostname", "port", "useSsl"});
-    createPropertyGroup("Service", new String[] {"packageN", "service"});
-    createPropertyGroup(
-        "Execute", new String[] {"method", "request", "timeout", "metaData", "requestBuilderCode"});
+    createPropertyGroup("Server", new String[] { "hostname", "port", "useSsl" });
+    createPropertyGroup("Service", new String[] { "packageN", "service" });
+    createPropertyGroup("Execute", new String[] { "method", "request", "timeout", "metaData", "requestBuilderCode" });
 
     PropertyDescriptor props = property("requestBuilderCode", TypeEditor.TextAreaEditor);
     props.setValue(UNDEFINDED, Boolean.TRUE);

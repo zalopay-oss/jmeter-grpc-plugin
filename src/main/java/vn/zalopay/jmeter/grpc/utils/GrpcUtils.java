@@ -25,7 +25,8 @@ import java.util.Collections;
 
 public class GrpcUtils {
 
-  private GrpcUtils() {}
+  private GrpcUtils() {
+  }
 
   private static final Logger LOGGER = LoggerFactory.getLogger(GrpcUtils.class);
 
@@ -92,25 +93,9 @@ public class GrpcUtils {
   }
 
   // reference io.grpc.Status.Code
-  protected static final List<String> statusCodeList =
-      Arrays.asList(
-          OK,
-          CANCELLED,
-          UNKNOWN,
-          INVALID_ARGUMENT,
-          DEADLINE_EXCEEDED,
-          NOT_FOUND,
-          ALREADY_EXISTS,
-          PERMISSION_DENIED,
-          RESOURCE_EXHAUSTED,
-          FAILED_PRECONDITION,
-          ABORTED,
-          OUT_OF_RANGE,
-          UNIMPLEMENTED,
-          INTERNAL,
-          UNAVAILABLE,
-          DATA_LOSS,
-          UNAUTHENTICATED);
+  protected static final List<String> statusCodeList = Arrays.asList(OK, CANCELLED, UNKNOWN, INVALID_ARGUMENT,
+      DEADLINE_EXCEEDED, NOT_FOUND, ALREADY_EXISTS, PERMISSION_DENIED, RESOURCE_EXHAUSTED, FAILED_PRECONDITION, ABORTED,
+      OUT_OF_RANGE, UNIMPLEMENTED, INTERNAL, UNAVAILABLE, DATA_LOSS, UNAUTHENTICATED);
 
   public static String getStatusCode(int index) {
     return statusCodeList.get(index);
@@ -127,10 +112,7 @@ public class GrpcUtils {
   private static String decapitalize(String str) {
     int strLen;
     return str != null && (strLen = str.length()) != 0
-        ? (new StringBuffer(strLen))
-            .append(Character.toLowerCase(str.charAt(0)))
-            .append(str.substring(1))
-            .toString()
+        ? (new StringBuffer(strLen)).append(Character.toLowerCase(str.charAt(0))).append(str.substring(1)).toString()
         : str;
   }
 
@@ -151,23 +133,13 @@ public class GrpcUtils {
   }
 
   public static String getSamplerData(GrpcClientSampler sampler, String req) {
-    return sampler.getHostname()
-        + ":"
-        + sampler.getPort()
-        + "\n"
-        + sampler.getService()
-        + "#"
-        + sampler.getMethod()
-        + "\nRequestData:\n"
-        + req;
+    return sampler.getHostname() + ":" + sampler.getPort() + "\n" + sampler.getService() + "#" + sampler.getMethod()
+        + "\nRequestData:\n" + req;
   }
 
   public static String getJsonMessageResponse(Object resp) {
     try {
-      return JsonFormat.printer()
-          .preservingProtoFieldNames()
-          .includingDefaultValueFields()
-          .print((Message) resp);
+      return JsonFormat.printer().preservingProtoFieldNames().includingDefaultValueFields().print((Message) resp);
     } catch (InvalidProtocolBufferException e) {
       LOGGER.error("call getJsonMessageResponse has thrown an Exception: ", e);
       return "";
@@ -177,9 +149,8 @@ public class GrpcUtils {
   public static ManagedChannel getChannel(GrpcClientSampler sampler) {
     Map<String, String> headerMap = createHeaderMap(sampler.getMetaData());
 
-    ManagedChannelBuilder builder =
-        ManagedChannelBuilder.forAddress(sampler.getHostname(), sampler.getPort())
-            .intercept(new GrpcClientInterceptor(headerMap, sampler.getTimeout()));
+    ManagedChannelBuilder builder = ManagedChannelBuilder.forAddress(sampler.getHostname(), sampler.getPort())
+        .intercept(new GrpcClientInterceptor(headerMap, sampler.getTimeout()));
 
     if (!sampler.isUseSsl()) {
       builder = builder.usePlaintext();
@@ -188,34 +159,30 @@ public class GrpcUtils {
   }
 
   public static AbstractStub<?> getBlockingStub(GrpcClientSampler sampler, Channel channel)
-      throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException,
-          IllegalAccessException {
+      throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, IllegalAccessException {
     Class<?> serviceGrpcClass = classLoader.loadClass(GrpcUtils.getGrpcServiceClass(sampler));
-    Method newBlockingStubMethod =
-        serviceGrpcClass.getMethod(GrpcUtils.NEW_BLOCKING_STUB, Channel.class);
+    Method newBlockingStubMethod = serviceGrpcClass.getMethod(GrpcUtils.NEW_BLOCKING_STUB, Channel.class);
     return (AbstractStub<?>) newBlockingStubMethod.invoke(null, channel);
   }
 
   public static Method getApiMethod(GrpcClientSampler sampler, AbstractStub<?> blockingStub)
       throws ClassNotFoundException, NoSuchMethodException {
     String methodName = decapitalize(sampler.getMethod());
-    Method apiMethod =
-        blockingStub.getClass().getMethod(methodName, Class.forName(sampler.getRequest()));
+    Method apiMethod = blockingStub.getClass().getMethod(methodName, Class.forName(sampler.getRequest()));
     apiMethod.setAccessible(true);
     return apiMethod;
   }
 
   public static MessageBuilder getMessageBuilder(String source) {
     try {
-      StringGeneratedJavaCompilerFacade compilerFacade =
-          new StringGeneratedJavaCompilerFacade(classLoader);
-      Class<? extends MessageBuilder> compiledClass =
-          compilerFacade.compile(BUILD_MESSAGE_CLASS_NAME, source, MessageBuilder.class);
+      StringGeneratedJavaCompilerFacade compilerFacade = new StringGeneratedJavaCompilerFacade(classLoader);
+      Class<? extends MessageBuilder> compiledClass = compilerFacade.compile(BUILD_MESSAGE_CLASS_NAME, source,
+          MessageBuilder.class);
       return compiledClass.newInstance();
     } catch (Exception e) {
       LOGGER.error("Failed to getMessageBuilder: ", e);
-      throw new IllegalStateException(
-          "The generated class (" + BUILD_MESSAGE_CLASS_NAME + ") failed to instantiate.", e);
+      throw new IllegalStateException("The generated class (" + BUILD_MESSAGE_CLASS_NAME + ") failed to instantiate.",
+          e);
     }
   }
 }

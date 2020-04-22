@@ -27,32 +27,24 @@ public class GrpcClientInterceptor implements ClientInterceptor {
   }
 
   @Override
-  public <ReqT, RespT> ClientCall<ReqT, RespT> interceptCall(
-      MethodDescriptor<ReqT, RespT> methodDescriptor, CallOptions callOptions, Channel channel) {
+  public <ReqT, RespT> ClientCall<ReqT, RespT> interceptCall(MethodDescriptor<ReqT, RespT> methodDescriptor,
+      CallOptions callOptions, Channel channel) {
     return new ForwardingClientCall.SimpleForwardingClientCall<ReqT, RespT>(
-        channel.newCall(
-            methodDescriptor, callOptions.withDeadlineAfter(timeoutInMs, TimeUnit.MILLISECONDS))) {
+        channel.newCall(methodDescriptor, callOptions.withDeadlineAfter(timeoutInMs, TimeUnit.MILLISECONDS))) {
       @Override
       public void start(ClientCall.Listener<RespT> responseListener, Metadata headers) {
 
-        headerMap.entrySet().stream()
-            .forEach(
-                entry -> {
-                  headers.put(
-                      Metadata.Key.of(entry.getKey(), Metadata.ASCII_STRING_MARSHALLER),
-                      entry.getValue());
-                  LOGGER.debug("Header key: {}, value: {}", entry.getKey(), entry.getValue());
-                });
+        headerMap.entrySet().stream().forEach(entry -> {
+          headers.put(Metadata.Key.of(entry.getKey(), Metadata.ASCII_STRING_MARSHALLER), entry.getValue());
+          LOGGER.debug("Header key: {}, value: {}", entry.getKey(), entry.getValue());
+        });
 
-        super.start(
-            new ForwardingClientCallListener.SimpleForwardingClientCallListener<RespT>(
-                responseListener) {
-              @Override
-              public void onHeaders(Metadata headers) {
-                super.onHeaders(headers);
-              }
-            },
-            headers);
+        super.start(new ForwardingClientCallListener.SimpleForwardingClientCallListener<RespT>(responseListener) {
+          @Override
+          public void onHeaders(Metadata headers) {
+            super.onHeaders(headers);
+          }
+        }, headers);
       }
     };
   }

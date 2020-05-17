@@ -1,13 +1,6 @@
-# Jmeter Grpc Plugin
+# JMeter gRPC Plugin
 
-
-
-A Jmeter plugin supports load test grpc service.
-
-## Prerequisites
-
-* Apache Jmeter (version >= 5.2)
-* Apache Maven (version >= 3.6.0)
+A JMeter plugin supports load test grpc service.
 
 ## Installation
 
@@ -20,15 +13,22 @@ $ cp target/jmeter-grpc-client-sampler.jar path/to/jmeter/lib/ext
 
 > *Note*: Please read [example](./docs/example/README.md) first if you want to skip the step by step below
 
-* Build and copy the protobuf jar to folder `jmeter/lib/ext` (do like this [script](docs/example/scripts/compile.sh) does)
+**Step 1.** Create a ***.jar** which contains java code generated from  ***.proto** file  and copy to `jmeter/lib/ext`.
 
-* Create test plan :
+*Example:*
+
+```sh
+$ cp hello.proto grpc-lib/src/main/proto/
+$ cd grpc-lib && mvn package
+$ cp target/grpc-lib-0.0.1.jar ../apache-jmeter-5.2/lib/ext/
+```
+
+**Step 2.** Create test plan :
   *  `TestPlan > Add > Thread (Users) > Thread Group`
   * `Thread Group > Add > Sampler > GRPC Client Sampler`
   * Config host, port, package, service... (see [more](docs/description.md))
   * Save your test plan with name <your_test_script>.jmx
-
-* Example: [hello.jmx](./docs/example/hello.jmx)
+  * Example: [hello.jmx](./docs/example/hello.jmx)
 <div align="center">
     <img src="docs/images/create-grpc-sampler.png"  width="95%"/>
 </div>
@@ -56,3 +56,5 @@ $ jmeter/bin/jmeter.sh -g <result_file>.csv -o <report>
 ## Acknowledgements
 
 Thanks to @A1Darkwing (Thanh Tran), @anhldbk (Anh Le), @VoxT (Thieu Vo) who dedicated to help me review and refactor the source code of project.
+
+If you would like to work with the simple request by json, see [jmeter-grpc-request](https://github.com/zalopay-oss/jmeter-grpc-request)

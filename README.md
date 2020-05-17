@@ -6,6 +6,7 @@ A JMeter plugin supports load test grpc service.
 
 ```sh
 $ mvn clean install
+
 $ cp target/jmeter-grpc-client-sampler.jar path/to/jmeter/lib/ext
 ```
 
@@ -19,7 +20,9 @@ $ cp target/jmeter-grpc-client-sampler.jar path/to/jmeter/lib/ext
 
 ```sh
 $ cp hello.proto grpc-lib/src/main/proto/
+
 $ cd grpc-lib && mvn package
+
 $ cp target/grpc-lib-0.0.1.jar ../apache-jmeter-5.2/lib/ext/
 ```
 
@@ -28,7 +31,8 @@ $ cp target/grpc-lib-0.0.1.jar ../apache-jmeter-5.2/lib/ext/
   * `Thread Group > Add > Sampler > GRPC Client Sampler`
   * Config host, port, package, service... (see [more](docs/description.md))
   * Save your test plan with name <your_test_script>.jmx
-  * Example: [hello.jmx](./docs/example/hello.jmx)
+
+*Example:* [hello.jmx](./docs/example/hello.jmx)
 <div align="center">
     <img src="docs/images/create-grpc-sampler.png"  width="95%"/>
 </div>
@@ -37,13 +41,13 @@ $ cp target/grpc-lib-0.0.1.jar ../apache-jmeter-5.2/lib/ext/
 
 ```sh
 # view all command in jmeter
-$ jmeter/bin/jmeter.sh -h
+$ jmeter/bin/jmeter -h
 
-# running load test
-$ jmeter/bin/jmeter.sh -n -t <your_test_script>.jmx -l <result_file>.csv
+# run load test
+$ jmeter/bin/jmeter -n -t <your_test_script>.jmx -l <result_file>.csv
 
 # generate report
-$ jmeter/bin/jmeter.sh -g <result_file>.csv -o <report>
+$ jmeter/bin/jmeter -g <result_file>.csv -o <report>
 ```
 
 ### Report

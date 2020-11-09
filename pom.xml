@@ -8,13 +8,13 @@
 
     <artifactId>jmeter-grpc-client-sampler</artifactId>
     <groupId>vn.zalopay</groupId>
-    <version>0.1.0</version>
+    <version>0.1.1</version>
     <packaging>jar</packaging>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <repo-internal-version>0.0.1</repo-internal-version>
-        <grpc.version>1.23.0</grpc.version>
+        <grpc.version>1.33.1</grpc.version>
         <google.protobuf.version>3.9.0</google.protobuf.version>
         <jmeter.core.version>5.1.1</jmeter.core.version>
         <spring.version>4.3.9.RELEASE</spring.version>
@@ -158,8 +158,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.1</version>
                 <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
+                    <source>1.9</source>
+                    <target>1.9</target>
                 </configuration>
             </plugin>
 

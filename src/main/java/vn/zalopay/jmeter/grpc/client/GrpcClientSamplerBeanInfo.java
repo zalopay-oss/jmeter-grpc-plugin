@@ -19,7 +19,7 @@ public class GrpcClientSamplerBeanInfo extends BeanInfoSupport {
   public GrpcClientSamplerBeanInfo() {
     super(GrpcClientSampler.class);
 
-    createPropertyGroup("Server", new String[] { "hostname", "port", "useSsl" });
+    createPropertyGroup("Server", new String[] { "hostname", "port", "useSsl", "certFile" });
     createPropertyGroup("Service", new String[] { "packageN", "service" });
     createPropertyGroup("Execute", new String[] { "method", "request", "timeout", "metaData", "requestBuilderCode" });
 
@@ -31,6 +31,7 @@ public class GrpcClientSamplerBeanInfo extends BeanInfoSupport {
     setPropertyDescriptor(props, "hostname", Config.HOST_NAME);
     setPropertyDescriptor(props, "port", Config.PORT);
     setPropertyDescriptor(props, "useSsl", Config.USE_SSL);
+    setPropertyDescriptor(props, "certFile", Config.CERT_FILE);
     setPropertyDescriptor(props, "packageN", Config.PACKAGE_NAME);
     setPropertyDescriptor(props, "service", Config.SERVICE);
     setPropertyDescriptor(props, "method", Config.METHOD);

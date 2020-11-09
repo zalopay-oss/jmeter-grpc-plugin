@@ -7,11 +7,11 @@ packageN | package name is defined in .proto | io.grpc.examples.helloworld
 service | the service is defined in .proto | Greeter
 method | rpc method to load test | sayHello
 request | request class name | io.grpc.examples.helloworld.HelloRequest
-timeout | timeout for each call in milisecond | 3000
+timeout | timeout for each call in milliseconds | 3000
 metaData | gRPC interceptor | {"Authorization" : "Bearer TOKEN", "Username": "A"}
 requestBuilderCode | the request message |
 
-`Note:` The requestBuilderCode must follows template below:
+`Note:` The requestBuilderCode must follow the template below:
 
 ```java
 import com.google.protobuf.Message;

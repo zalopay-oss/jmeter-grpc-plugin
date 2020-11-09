@@ -5,6 +5,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.google.protobuf.Message;
 import com.google.protobuf.util.JsonFormat;
+import io.grpc.netty.GrpcSslContexts;
+import io.grpc.netty.NettyChannelBuilder;
+import io.netty.handler.ssl.SslContext;
 import vn.zalopay.jmeter.grpc.client.GrpcClientInterceptor;
 import vn.zalopay.jmeter.grpc.client.GrpcClientSampler;
 import vn.zalopay.jmeter.grpc.compiler.StringGeneratedJavaCompilerFacade;
@@ -15,6 +18,8 @@ import io.grpc.stub.AbstractStub;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.net.ssl.SSLException;
+import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.List;
@@ -146,14 +151,27 @@ public class GrpcUtils {
     }
   }
 
-  public static ManagedChannel getChannel(GrpcClientSampler sampler) {
+  public static ManagedChannel getChannel(GrpcClientSampler sampler) throws SSLException {
     Map<String, String> headerMap = createHeaderMap(sampler.getMetaData());
 
-    ManagedChannelBuilder builder = ManagedChannelBuilder.forAddress(sampler.getHostname(), sampler.getPort())
+    ManagedChannelBuilder builder = NettyChannelBuilder.forAddress(sampler.getHostname(), sampler.getPort())
         .intercept(new GrpcClientInterceptor(headerMap, sampler.getTimeout()));
 
     if (!sampler.isUseSsl()) {
       builder = builder.usePlaintext();
+    } else if (!sampler.getCertFile().isEmpty()) {
+      // build out a managed channel that can accept the ssl cert file
+      // Get the file and verify it exits
+      File certFile = new File(sampler.getCertFile());
+      if (!certFile.exists()) {
+        LOGGER.error("The cert file passed in does not exist at: ", sampler.getCertFile());
+      }
+
+      // build the client side ssl context with the cert
+      SslContext sslContext = GrpcSslContexts.forClient().trustManager(certFile).build();
+
+      // add the ssl context to the builder
+      builder = ((NettyChannelBuilder) builder).sslContext(sslContext);
     }
     return builder.build();
   }

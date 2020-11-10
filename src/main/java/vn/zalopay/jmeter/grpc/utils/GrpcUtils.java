@@ -8,6 +8,7 @@ import com.google.protobuf.util.JsonFormat;
 import io.grpc.netty.GrpcSslContexts;
 import io.grpc.netty.NettyChannelBuilder;
 import io.netty.handler.ssl.SslContext;
+import org.apache.commons.lang3.StringUtils;
 import vn.zalopay.jmeter.grpc.client.GrpcClientInterceptor;
 import vn.zalopay.jmeter.grpc.client.GrpcClientSampler;
 import vn.zalopay.jmeter.grpc.compiler.StringGeneratedJavaCompilerFacade;
@@ -159,7 +160,7 @@ public class GrpcUtils {
 
     if (!sampler.isUseSsl()) {
       builder = builder.usePlaintext();
-    } else if (!sampler.getCertFile().isEmpty()) {
+    } else if (!StringUtils.isBlank(sampler.getCertFile())) {
       // build out a managed channel that can accept the ssl cert file
       // Get the file and verify it exits
       File certFile = new File(sampler.getCertFile());

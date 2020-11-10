@@ -162,7 +162,7 @@ public class GrpcUtils {
       builder = builder.usePlaintext();
     } else if (!StringUtils.isBlank(sampler.getCertFile())) {
       // build out a managed channel that can accept the ssl cert file
-      // Get the file and verify it exits
+      // Get the file and verify it exists
       File certFile = new File(sampler.getCertFile());
       if (!certFile.exists()) {
         LOGGER.error("The cert file passed in does not exist at: ", sampler.getCertFile());

@@ -41,6 +41,9 @@ public class GrpcClientSampler extends AbstractSampler implements TestBean, Seri
   private boolean useSsl = Config.USE_SSL;
   @Setter
   @Getter
+  private String certFile = Config.CERT_FILE;
+  @Setter
+  @Getter
   private String packageN = Config.PACKAGE_NAME;
   @Setter
   @Getter

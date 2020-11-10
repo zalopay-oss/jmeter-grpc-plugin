@@ -27,11 +27,12 @@ public class GrpcClientSamplerBeanInfo extends BeanInfoSupport {
     props.setValue(UNDEFINDED, Boolean.TRUE);
     props.setValue("textLanguage", "java");
     props.setValue(DEFAULT, Config.REQUEST_CODE);
-
+    props = property("certFile", TypeEditor.FileEditor);
+    props.setValue(UNDEFINDED, Config.CERT_FILE);
+    props.setValue(DEFAULT, Config.CERT_FILE);
     setPropertyDescriptor(props, "hostname", Config.HOST_NAME);
     setPropertyDescriptor(props, "port", Config.PORT);
     setPropertyDescriptor(props, "useSsl", Config.USE_SSL);
-    setPropertyDescriptor(props, "certFile", Config.CERT_FILE);
     setPropertyDescriptor(props, "packageN", Config.PACKAGE_NAME);
     setPropertyDescriptor(props, "service", Config.SERVICE);
     setPropertyDescriptor(props, "method", Config.METHOD);

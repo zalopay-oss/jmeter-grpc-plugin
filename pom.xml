@@ -8,7 +8,7 @@
 
     <artifactId>jmeter-grpc-client-sampler</artifactId>
     <groupId>vn.zalopay</groupId>
-    <version>0.1.1</version>
+    <version>0.1.2</version>
     <packaging>jar</packaging>
 
     <properties>

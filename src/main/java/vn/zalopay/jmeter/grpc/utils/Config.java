@@ -9,6 +9,12 @@ public class Config {
   public static final String HOST_NAME = props.getOrDefault("sampler.host", "localhost");
   public static final int PORT = Integer.parseInt(props.getOrDefault("sampler.port", "50051"));
   public static final boolean USE_SSL = Boolean.getBoolean(props.getOrDefault("sampler.use.ssl", "false"));
+  public static final boolean KEEP_ALIVE_WITHOUT_CALLS = Boolean
+      .getBoolean(props.getOrDefault("sampler.keep.alive.without.calls", "false"));
+  public static final long KEEP_ALIVE_TIME = Long.parseLong(props.getOrDefault("sampler.keep.alive.time", "-1"));
+  public static final long KEEP_ALIVE_TIMEOUT = Long.parseLong(props.getOrDefault("sampler.keep.alive.timeout", "-1"));
+  public static final int MAX_INBOUND_SIZE_MESSAGE = Integer
+      .parseInt(props.getOrDefault("sampler.max.inbound.size.message", "-1"));
   public static final String CERT_FILE = props.getOrDefault("sampler.service.cert.file", "");
   public static final String PACKAGE_NAME = props.getOrDefault("sampler.package.name", "io.grpc.examples.helloworld");
   public static final String SERVICE = props.getOrDefault("sampler.service.name", "Greeter");

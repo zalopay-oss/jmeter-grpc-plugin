@@ -1,9 +1,10 @@
 package vn.zalopay.jmeter.grpc.client;
 
-import java.beans.PropertyDescriptor;
-import vn.zalopay.jmeter.grpc.utils.Config;
 import org.apache.jmeter.testbeans.BeanInfoSupport;
 import org.apache.jmeter.testbeans.gui.TypeEditor;
+import vn.zalopay.jmeter.grpc.utils.Config;
+
+import java.beans.PropertyDescriptor;
 
 public class GrpcClientSamplerBeanInfo extends BeanInfoSupport {
 
@@ -19,7 +20,8 @@ public class GrpcClientSamplerBeanInfo extends BeanInfoSupport {
   public GrpcClientSamplerBeanInfo() {
     super(GrpcClientSampler.class);
 
-    createPropertyGroup("Server", new String[] { "hostname", "port", "useSsl", "certFile" });
+    createPropertyGroup("Server", new String[] { "hostname", "port", "useSsl", "certFile", "keepAliveTime",
+        "keepAliveTimeout", "keepAliveWithoutCalls", "maxInboundSizeMessage" });
     createPropertyGroup("Service", new String[] { "packageN", "service" });
     createPropertyGroup("Execute", new String[] { "method", "request", "timeout", "metaData", "requestBuilderCode" });
 

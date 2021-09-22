@@ -3,6 +3,10 @@ Name | Description | Example
 hostname | service host | 127.0.0.1
 port | service port | 50051
 useSsl | use ssl or not | false
+keepAliveTime | keep alive time in milliseconds | 30000
+keepAliveTimeout | keep alive time out in milliseconds | 30000
+keepAliveWithoutCalls | send keep alive messages without calls | false
+maxInboundMessageSize | max size of inbound message in bytes | 4096
 packageN | package name is defined in .proto | io.grpc.examples.helloworld
 service | the service is defined in .proto | Greeter
 method | rpc method to load test | sayHello

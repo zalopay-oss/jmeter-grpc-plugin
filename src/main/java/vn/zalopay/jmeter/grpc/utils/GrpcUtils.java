@@ -5,29 +5,30 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.google.protobuf.Message;
 import com.google.protobuf.util.JsonFormat;
-import io.grpc.netty.GrpcSslContexts;
-import io.grpc.netty.NettyChannelBuilder;
-import io.netty.handler.ssl.SslContext;
-import org.apache.commons.lang3.StringUtils;
-import vn.zalopay.jmeter.grpc.client.GrpcClientInterceptor;
-import vn.zalopay.jmeter.grpc.client.GrpcClientSampler;
-import vn.zalopay.jmeter.grpc.compiler.StringGeneratedJavaCompilerFacade;
 import io.grpc.Channel;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
+import io.grpc.netty.GrpcSslContexts;
+import io.grpc.netty.NettyChannelBuilder;
 import io.grpc.stub.AbstractStub;
+import io.netty.handler.ssl.SslContext;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import vn.zalopay.jmeter.grpc.client.GrpcClientInterceptor;
+import vn.zalopay.jmeter.grpc.client.GrpcClientSampler;
+import vn.zalopay.jmeter.grpc.compiler.StringGeneratedJavaCompilerFacade;
 
 import javax.net.ssl.SSLException;
 import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.List;
 import java.util.Arrays;
-import java.util.Map;
-import java.util.HashMap;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 public class GrpcUtils {
 
@@ -156,7 +157,20 @@ public class GrpcUtils {
     Map<String, String> headerMap = createHeaderMap(sampler.getMetaData());
 
     ManagedChannelBuilder builder = NettyChannelBuilder.forAddress(sampler.getHostname(), sampler.getPort())
+        .keepAliveWithoutCalls(sampler.isKeepAliveWithoutCalls())
         .intercept(new GrpcClientInterceptor(headerMap, sampler.getTimeout()));
+
+    if (sampler.getKeepAliveTime() >= 0) {
+      builder.keepAliveTime(sampler.getKeepAliveTime(), TimeUnit.MILLISECONDS);
+    }
+
+    if (sampler.getKeepAliveTimeout() >= 0) {
+      builder.keepAliveTimeout(sampler.getKeepAliveTimeout(), TimeUnit.MILLISECONDS);
+    }
+
+    if (sampler.getMaxInboundSizeMessage() >= 0) {
+      builder.maxInboundMessageSize(sampler.getMaxInboundSizeMessage());
+    }
 
     if (!sampler.isUseSsl()) {
       builder = builder.usePlaintext();

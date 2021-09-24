@@ -1,29 +1,24 @@
 package vn.zalopay.jmeter.grpc.client;
 
 import com.google.protobuf.Message;
-
-import vn.zalopay.jmeter.grpc.utils.Config;
-import vn.zalopay.jmeter.grpc.utils.GrpcUtils;
-import vn.zalopay.jmeter.grpc.utils.MessageBuilder;
-
 import io.grpc.ManagedChannel;
 import io.grpc.stub.AbstractStub;
-
-import java.io.Serializable;
-import java.lang.reflect.Method;
-import java.util.concurrent.TimeUnit;
-
+import lombok.Getter;
+import lombok.Setter;
 import org.apache.jmeter.samplers.AbstractSampler;
 import org.apache.jmeter.samplers.Entry;
 import org.apache.jmeter.samplers.SampleResult;
 import org.apache.jmeter.testbeans.TestBean;
 import org.apache.jmeter.threads.JMeterContextService;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import vn.zalopay.jmeter.grpc.utils.Config;
+import vn.zalopay.jmeter.grpc.utils.GrpcUtils;
+import vn.zalopay.jmeter.grpc.utils.MessageBuilder;
 
-import lombok.Getter;
-import lombok.Setter;
+import java.io.Serializable;
+import java.lang.reflect.Method;
+import java.util.concurrent.TimeUnit;
 
 public class GrpcClientSampler extends AbstractSampler implements TestBean, Serializable {
 
@@ -63,6 +58,18 @@ public class GrpcClientSampler extends AbstractSampler implements TestBean, Seri
   @Setter
   @Getter
   private String requestBuilderCode = Config.REQUEST_CODE;
+  @Setter
+  @Getter
+  private boolean keepAliveWithoutCalls = Config.KEEP_ALIVE_WITHOUT_CALLS;
+  @Setter
+  @Getter
+  private long keepAliveTime = Config.KEEP_ALIVE_TIME;
+  @Setter
+  @Getter
+  private long keepAliveTimeout = Config.KEEP_ALIVE_TIMEOUT;
+  @Setter
+  @Getter
+  private int maxInboundSizeMessage = Config.MAX_INBOUND_SIZE_MESSAGE;
 
   private transient ManagedChannel channel = null;
   private transient AbstractStub<?> blockingStub = null;

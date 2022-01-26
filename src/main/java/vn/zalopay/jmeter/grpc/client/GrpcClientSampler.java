@@ -18,6 +18,7 @@ import vn.zalopay.jmeter.grpc.utils.MessageBuilder;
 
 import java.io.Serializable;
 import java.lang.reflect.Method;
+import java.util.Iterator;
 import java.util.concurrent.TimeUnit;
 
 public class GrpcClientSampler extends AbstractSampler implements TestBean, Serializable {
@@ -105,13 +106,12 @@ public class GrpcClientSampler extends AbstractSampler implements TestBean, Seri
     recorder.recordStart();
     try {
       Object resp = apiMethod.invoke(blockingStub, req);
-      recorder.recordSuccess(resp);
-      LOGGER.info("Call sample has response= {}", resp);
+      Iterator iterator = (Iterator) resp;
+      recorder.recordSuccess(iterator.next());
     } catch (Exception e) {
       recorder.recordFailure(e);
       LOGGER.error("Call sample has thrown an exception: ", e);
     }
-
     return recorder.getResult();
   }
 

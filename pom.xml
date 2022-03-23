@@ -19,7 +19,7 @@
         <jmeter.core.version>5.1.1</jmeter.core.version>
         <spring.version>4.3.9.RELEASE</spring.version>
         <lombok.version>1.18.10</lombok.version>
-        <jackson.version>2.10.0</jackson.version>
+        <jackson.version>2.13.2</jackson.version>
         <spotless-maven-plugin.version>1.20.0</spotless-maven-plugin.version>
     </properties>
     <dependencyManagement>
